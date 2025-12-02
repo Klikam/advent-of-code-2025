@@ -1,26 +1,22 @@
 import ranges from '../data/ranges.js';
 
-console.log(ranges);
-console.log('=====');
-
 const invalidIds = [];
 
 const isInRange = (number, limit) => limit - number >= 0;
 
 const isEven = number => number % 2 === 0;
 
-const hasPattern = number => {
-  if (number.toString().length < 2) {
-    return false;
-  }
-  if (!isEven(number.toString().length)) {
-    const splittedNumber = number.toString().split('');
-    return splittedNumber.every(letter => letter === splittedNumber[0]);
+const hasPattern = num => {
+  const number = num.toString();
+  if (isEven(number.length)) {
+    return (
+      number.slice(0, number.length / 2) === number.slice(number.length / 2)
+    );
   }
   return false;
 };
 
-ranges.forEach((range, index) => {
+ranges.forEach(range => {
   let start = +range[0];
   const limit = +range[1];
   const invalidIdsForRange = [];
@@ -38,4 +34,4 @@ ranges.forEach((range, index) => {
   invalidIds.push(invalidIdsForRange);
 });
 
-console.log(invalidIds);
+console.log(invalidIds.flat().reduce((acc, number) => acc + number));
