@@ -1,9 +1,8 @@
 import batteries from '../data/batteries.js';
-import test from '../data/testData.js';
 
 let joltage = [];
 
-const splittedBattery = test.map(battery => battery.split(''));
+const splittedBattery = batteries.map(battery => battery.split(''));
 
 splittedBattery.forEach(arr => {
   let firstDigit, secondDigit;
@@ -19,6 +18,4 @@ splittedBattery.forEach(arr => {
   joltage.push(firstDigit.toString() + secondDigit.toString());
 });
 
-console.log(joltage);
-
-// console.log(joltage.reduce((acc, joltage) => acc + joltage));
+console.log(joltage.reduce((acc, joltage) => +acc + +joltage));
