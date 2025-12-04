@@ -18,4 +18,7 @@ splittedBattery.forEach(arr => {
   joltage.push(firstDigit.toString() + secondDigit.toString());
 });
 
-console.log(joltage.reduce((acc, joltage) => +acc + +joltage));
+console.log(
+  joltage.map(Number).reduce((acc, joltage) => acc + joltage),
+  0
+);
