@@ -1,4 +1,8 @@
-import math from '../data/math.js';
+import inputMath from '../data/math.js';
+
+let math = [
+  ...inputMath.split('\n').map(m => m.split(' ').filter(m => m !== '')),
+];
 
 let results = [];
 
