@@ -1,39 +1,60 @@
-import inputMath from '../data/test.js';
-// import math from '../data/math.js';
+import inputMath from '../data/math.js';
 
-let math = inputMath.split('\n').map(k);
-console.log(math);
+const math = inputMath.split('\n');
 
-let results = [];
-let numbers = [];
-
-for (let i = 0; i < math[0].length; i++) {
-  let addResult = 0;
-  let multiplyResult = 1;
-  let partialNumber = [];
-  console.log(`=====`);
-
-  for (let k = 0; k < math.length - 1; k++) {
-    let number = '';
-    for (let j = 0; j < math.length - 1; j++) {
-      number += math[j][i].slice(-1);
-      math[j][i] = math[j][i].slice(0, -1);
-
-      // if (math[math.length - 1][i] === '+') {
-      //   console.log(math[j]);
-      //   console.log(j, i, math[j][i]);
-      //   addResult += +math[j][i];
-      // } else if (math[math.length - 1][i] === '*') {
-      //   console.log(j, i, math[j][i]);
-      //   multiplyResult *= +math[j][i];
-      // }
-    }
-    partialNumber.push(number);
+function isSeparator(index) {
+  for (let i = 0; i < math.length; i++) {
+    if (math[i][index] !== ' ') return false;
   }
-  numbers.push(partialNumber);
-  results.push(addResult ? addResult : multiplyResult);
+  return true;
 }
 
-console.log(numbers);
-console.log(results);
+let numbers = [];
+let numbersRow = [];
+let number = '';
+let separator = false;
+for (let j = 0; j < math[0].length; j++) {
+  separator = false;
+  numbersRow = [];
+  for (let i = 0; i < math.length - 1; i++) {
+    if (isSeparator(j)) {
+      number = '';
+      separator = true;
+    } else {
+      number += math[i][j];
+    }
+  }
+  if (!separator) {
+    numbersRow.push(number);
+    number = '';
+    separator = false;
+  }
+  numbers.push(numbersRow);
+}
+
+const splitNumbers = [];
+let row = [];
+numbers.push([]);
+numbers.forEach(n => {
+  if (n.length !== 0) {
+    row.push(n[0]);
+  } else {
+    splitNumbers.push(row);
+    row = [];
+  }
+});
+
+const sign = math[math.length - 1].split(/\s+/);
+
+let results = [];
+splitNumbers.forEach((row, index) => {
+  const r = row.map(Number);
+  if (sign[index] === '+') {
+    results.push(r.reduce((acc, n) => acc + n, 0));
+  }
+  if (sign[index] === '*') {
+    results.push(r.reduce((acc, n) => acc * n, 1));
+  }
+});
+
 console.log(results.reduce((acc, n) => acc + n, 0));
